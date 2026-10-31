@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosevé Imports</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .top-bar {
+            font-size: 12px;
+            text-align: center;
+            background-color: #f3f3f3;
+            padding: 5px 0;
+            margin: -10px -20px 10px -20px;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: #000;
+            text-decoration: none;
+        }
+        .nav-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #555;
+        }
+        .cart-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .tagline {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin: 10px 0 20px 0;
+        }
+        .hero p {
+            color: #666;
+            max-width: 60px0px;
+            margin: 0 auto 30px auto;
+        }
+        .cta-buttons a {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .btn-primary {
+            background-color: #000;
+            color: #fff;
+        }
+        .btn-secondary {
+            background-color: #eee;
+            color: #000;
+        }
+
+        /* Features Bar */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 20px;
+            background-color: #fafafa;
+            font-size: 13px;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Standard Sections */
+        section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h2 {
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Mobile Sticky Footer */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 90;
+        }
+        .mobile-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 
+           FIXED LAYER SYSTEM: 
+           Using display: none ensures that when the cart is closed, 
+           it does NOT sit invisibly over the screen blocking clicks.
+        */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none; /* ✅ Crucial fix: elements are hidden structurally */
+        }
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            z-index: 1001;
+            /* Slide transitions can be driven when active classes are toggled */
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .close-cart {
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .cart-content {
+            flex: 1;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">Free delivery in Accra on orders over GH₵ 300 | New stock lands every week</div>
+        <div class="nav-container">
+            <a href="#" class="logo">R Rosevé Imports</a>
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#shop">Shop</a>
+                <a href="#ask">Ask</a>
+                <a href="#track">Track</a>
+                <a href="#how-it-works">How It Works</a>
+            </nav>
+            <button class="cart-btn" onclick="openCart()">
+                <span>WhatsApp Cart</span> <span style="background:white; color:#25D366; padding: 2px 6px; border-radius:50%; font-size:12px;">0</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="hero" id="home">
+        <span class="tagline">Fashion · Beauty · Hair</span>
+        <h1>Timeless styles for every you.</h1>
+        <p>Trendy, elegant and affordable. Imported for you and delivered across Ghana.</p>
+        <div class="cta-buttons">
+            <a href="#shop" class="btn-primary">Shop now</a>
+            <a href="#track" class="btn-secondary">Track my order</a>
+        </div>
+    </div>
+
+    <div class="features">
+        <span>✓ Every price shown in GH₵</span>
+        <span>✓ Stock checked every morning</span>
+        <span>✓ Pay by MoMo or on delivery</span>
+    </div>
+
+    <section id="shop">
+        <h2>Shop Rosevé Imports</h2>
+        <p>Browse our current collection. Pre-order items arrive from our supplier in about two weeks.</p>
+        <div style="margin-bottom: 20px;">
+            <label><input type="checkbox"> Hide out of stock</label>
+            <select style="margin-left: 15px; padding: 5px;">
+                <option>Sort: Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+            </select>
+        </div>
+        <div style="border: 1px dashed #ccc; padding: 40px; text-align: center; color: #777;">
+            [ Featured Items Grid Placeholder ]
+        </div>
+    </section>
+
+    <section id="ask">
+        <h2>Ask about an item</h2>
+        <div class="form-group">
+            <label>Select Item</label>
+            <select>
+                <option>Choose an item...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Quick questions</label>
+            <div style="display:flex; gap:10px;">
+                <button type="button" style="padding:5px 10px;">In stock?</button>
+                <button type="button" style="padding:5px 10px;">Sizes & colours</button>
+                <button type="button" style="padding:5px 10px;">Delivery cost</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Your question</label>
+            <textarea rows="3" placeholder="Type your question details here..."></textarea>
+        </div>
+        <div class="form-group">
+            <label><input type="checkbox"> Notify me when back in stock</label>
+        </div>
+        <div class="form-group">
+            <label>Your name (optional)</label>
+            <input type="text">
+        </div>
+        <button class="btn-whatsapp">Ask on WhatsApp</button>
+    </section>
+
+    <section id="track">
+        <h2>Track your delivery</h2>
+        <div class="form-group">
+            <label>Order number</label>
+            <input type="text" placeholder="e.g., RI-10482">
+        </div>
+        <button class="btn-primary" style="border:none; padding:10px 20px; cursor:pointer; font-weight:bold; border-radius:4px;">Track order</button>
+        <p style="font-size:12px; color:#666; margin-top:10px;">Sample orders: RI-10482, RI-10477, RI-10450</p>
+    </section>
+
+    <section id="how-it-works">
+        <h2>How ordering works</h2>
+        <p><strong>1. Pick items</strong><br>Browse items and select your size/color.</p>
+        <p><strong>2. Checkout</strong><br>Enter your delivery address and send via WhatsApp.</p>
+        <p><strong>3. Payment</strong><br>Pay securely with MoMo (MTN, Telecel, AT) or cash on delivery in Accra.</p>
+        <p><strong>4. Delivery</strong><br>Orders arrive in 1-2 days within Accra, 2-4 days nationwide.</p>
+    </section>
+
+    <footer style="background:#222; color:#fff; padding: 40px 20px; text-align: center; margin-bottom: 60px;">
+        <h3>Rosevé Imports</h3>
+        <p>Quality imported fashion, bags, jewelry, and beauty delivered across Ghana.</p>
+        <p><strong>Order & Support:</strong> +233 54 450 7769 | Chat on WhatsApp</p>
+        <p><strong>Hours:</strong> Mon - Sat: 9:00 AM - 8:00 PM | Accra, Ghana</p>
+    </footer>
+
+    <div class="mobile-nav">
+        <a href="#home">🏠 <span>Home</span></a>
+        <a href="#shop">🛍 <span>Shop</span></a>
+        <a href="#ask">💬 <span>Ask</span></a>
+        <a href="#" onclick="openCart(); return false;">🛒 <span>Cart (0)</span></a>
+    </div>
+
+    <!-- CART MODAL SYSTEM -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()">
+        <!-- StopPropagation prevents clicking inside the white menu from accidentally closing it -->
+        <div class="cart-sidebar" onclick="event.stopPropagation()">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-cart" onclick="closeCart()">✕</button>
+            </div>
+            <div class="cart-content">
+                <p style="color:#777; text-align:center;">Your cart is empty.</p>
+                <button onclick="closeCart()" style="width:100%; padding:10px; margin-bottom:20px;">Continue shopping</button>
+                
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Area</label>
+                    <select>
+                        <option>Accra & Tema (Standard)</option>
+                        <option>Outside Accra (Regional Courier)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Address / Landmark</label>
+                    <input type="text">
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select>
+                        <option>Mobile Money (MTN, Telecel, AT)</option>
+                        <option>Pay on Delivery (Accra only)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes (optional)</label>
+                    <textarea rows="2"></textarea>
+                </div>
+                <button class="btn-whatsapp">Send Order on WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openCart() {
+            document.getElementById('cartOverlay').style.display = 'block';
+        }
+        function closeCart() {
+            document.getElementById('cartOverlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
